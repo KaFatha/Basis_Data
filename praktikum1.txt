@@ -1,0 +1,137 @@
+Microsoft Windows [Version 10.0.22631.3155]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\LENOVO>cd ..
+
+C:\Users>cd \
+
+C:\>cd xampp\mysql\bin
+
+C:\xampp\mysql\bin> mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 10.4.28-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]>  SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| dbtoko             |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+6 rows in set (0.002 sec)
+
+MariaDB [(none)]> CREATE DATABASE ti09;
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [(none)]> USE ti09;
+Database changed
+MariaDB [ti09]> CREATE TABLE jaatan(
+    -> id int primary key NOT NULL auto_increment,
+    -> nama varchar(30) NOT NULL unique;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 3
+MariaDB [ti09]> CREATE TABLE jaatan(
+    -> id int primary key NOT NULL auto_increment,
+    -> nama varchar(30) NOT NULL unique;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 3
+MariaDB [ti09]> CREATE TABLE jabatan(
+    -> id int primary key NOT NULL auto_increment,
+    -> nama varchar(30) NOT NULL unique);
+Query OK, 0 rows affected (0.044 sec)
+
+MariaDB [ti09]> DESC jabatan;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.021 sec)
+
+MariaDB [ti09]>
+MariaDB [ti09]> CREATE TABLE pegawai9
+    -> id int NOT NULL primary key auto_increment,
+    -> nip varchar(20) NOT NULL unique,
+    -> nama varchar(30) NOT NULL,
+    -> tgl_lahir DATE NOT NULL,
+    -> email varchar(30),
+    -> no_hp varchar(30),
+    -> jabatan_id int NOT NULL REFERENCES jabatan(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'id int NOT NULL primary key auto_increment,
+nip varchar(20) NOT NULL unique,
+...' at line 2
+MariaDB [ti09]> CREATE TABLE pegawai(
+    -> id int NOT NULL primary key auto_increment,
+    -> nip varchar(20) NOT NULL unique,
+    -> nama varchar(30) NOT NULL,
+    -> tgl_lahir DATE NOT NULL,
+    -> email varchar(30),
+    -> no_hp varchar(30),
+    -> jabatan_id int NOT NULL REFERENCES jabatan(id));
+Query OK, 0 rows affected (0.044 sec)
+
+MariaDB [ti09]> DESC pegawai;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nip        | varchar(20) | NO   | UNI | NULL    |                |
+| nama       | varchar(30) | NO   |     | NULL    |                |
+| tgl_lahir  | date        | NO   |     | NULL    |                |
+| email      | varchar(30) | YES  |     | NULL    |                |
+| no_hp      | varchar(30) | YES  |     | NULL    |                |
+| jabatan_id | int(11)     | NO   |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+7 rows in set (0.020 sec)
+
+MariaDB [ti09]> ALTER TABLE pegawaiMODIFY nama varchar(50) AFTER nip;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'varchar(50) AFTER nip' at line 1
+MariaDB [ti09]> ALTER TABLE pegawai
+    -> MODIFY nama varchar(50) NOT NULL;
+Query OK, 0 rows affected (0.011 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [ti09]> DESC pegawai
+    -> ;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nip        | varchar(20) | NO   | UNI | NULL    |                |
+| nama       | varchar(50) | NO   |     | NULL    |                |
+| tgl_lahir  | date        | NO   |     | NULL    |                |
+| email      | varchar(30) | YES  |     | NULL    |                |
+| no_hp      | varchar(30) | YES  |     | NULL    |                |
+| jabatan_id | int(11)     | NO   |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+7 rows in set (0.019 sec)
+
+MariaDB [ti09]> ALTER TABLE pegawai
+    -> DROP COLUMN no_hp;
+Query OK, 0 rows affected (0.037 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [ti09]> DESC pegawai
+    -> ;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nip        | varchar(20) | NO   | UNI | NULL    |                |
+| nama       | varchar(50) | NO   |     | NULL    |                |
+| tgl_lahir  | date        | NO   |     | NULL    |                |
+| email      | varchar(30) | YES  |     | NULL    |                |
+| jabatan_id | int(11)     | NO   |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+6 rows in set (0.023 sec)
+
+MariaDB [ti09]>
