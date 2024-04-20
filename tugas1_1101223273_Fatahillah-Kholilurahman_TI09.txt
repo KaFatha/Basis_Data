@@ -1,0 +1,619 @@
+Jawaban No. 1 Membuat dbpegawai
+MariaDB [(none)]> CREATE DATABASE dbpegawai;
+Query OK, 1 row affected (0.003 sec)
+
+Jawaban No. 2 Masuk dengan perintah USE
+MariaDB [(none)]> USE dbpegawai;
+Database changed
+
+Jawaban No. 3 Membuat table divisi
+MariaDB [dbpegawai]> CREATE TABLE divisi (
+    -> id INT PRIMARY KEY AUTO_INCREMENT,
+    -> nama VARCHAR(30) not null UNIQUE
+    -> );
+Query OK, 0 rows affected (0.034 sec)
+
+Jawaban No. 4 Mendeskripsikan table divisi
+MariaDB [dbpegawai]> DESC divisi;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.027 sec)
+
+Jawaban No. 5 Membuat table jabatan
+MariaDB [dbpegawai]> CREATE TABLE jabatan(
+    -> id INT PRIMARY KEY AUTO_INCREMENT,
+    -> nama VARCHAR(30) not null UNIQUE
+    -> );
+Query OK, 0 rows affected (0.036 sec)
+
+Jawaban No. 6 Mendeskripsikan table jabatan
+MariaDB [dbpegawai]> DESC jabatan;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.023 sec)
+
+Jawaban No. 7 Membuat table pegawai
+MariaDB [dbpegawai]> CREATE TABLE pegawai (
+    -> id int NOT NULL primary key auto_increment,
+    -> nip char(5) NOT NULL unique,
+    -> nama varchar(30) NOT NULL,
+    -> gender ENUM ('Laki-Laki', 'Perempuan') NOT NULL,
+    -> tmp_lahir varchar(30) NOT NULL,
+    -> tgl_lahir DATE NOT NULL,
+    -> iddivisi int NOT NULL REFERENCES divisi(id),
+    -> idjabatan int NOT NULL REFERENCES jabatan(id),
+    -> alamat TEXT
+    -> );
+Query OK, 0 rows affected (0.053 sec)
+
+Jawaban No. 8 Mendeskripsikan table pegawai
+MariaDB [dbpegawai]> DESC pegawai;
++-----------+-------------------------------+------+-----+---------+----------------+
+| Field     | Type                          | Null | Key | Default | Extra          |
++-----------+-------------------------------+------+-----+---------+----------------+
+| id        | int(11)                       | NO   | PRI | NULL    | auto_increment |
+| nip       | char(5)                       | NO   | UNI | NULL    |                |
+| nama      | varchar(30)                   | NO   |     | NULL    |                |
+| gender    | enum('Laki-Laki','Perempuan') | NO   |     | NULL    |                |
+| tmp_lahir | varchar(30)                   | NO   |     | NULL    |                |
+| tgl_lahir | date                          | NO   |     | NULL    |                |
+| iddivisi  | int(11)                       | NO   |     | NULL    |                |
+| idjabatan | int(11)                       | NO   |     | NULL    |                |
+| alamat    | text                          | YES  |     | NULL    |                |
++-----------+-------------------------------+------+-----+---------+----------------+
+9 rows in set (0.021 sec)
+
+Jawaban No. 9 Menampilkan semua table dalam dbpegawai
+MariaDB [dbpegawai]> SHOW TABLES;
++---------------------+
+| Tables_in_dbpegawai |
++---------------------+
+| divisi              |
+| jabatan             |
+| pegawai             |
++---------------------+
+3 rows in set (0.001 sec)
+
+Jawaban No. 10 Menginput data divisi
+MariaDB [dbpegawai]> INSERT INTO divisi VALUES
+    -> (11, 'SDM'), (12, 'Keuangan'), (13, 'Marketing'), (14, 'IT');
+Query OK, 4 rows affected (0.070 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+Jawaban No. 11 Menampilkan seluruh data dalam table divisi
+MariaDB [dbpegawai]> SELECT * FROM divisi;
++----+-----------+
+| id | nama      |
++----+-----------+
+| 14 | IT        |
+| 12 | Keuangan  |
+| 13 | Marketing |
+| 11 | SDM       |
++----+-----------+
+4 rows in set (0.001 sec)
+
+Jawaban No. 12 Menginput data jabatan
+MariaDB [dbpegawai]> INSERT INTO jabatan VALUES
+    -> ('21', 'Direktur'), ('22', 'Manajer'), ('23', 'Asisten Manajer'), ('24', 'Staff');
+Query OK, 4 rows affected (0.009 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+Jawaban No. 13 Menampilkan seluruh data dalam table jabatan
+MariaDB [dbpegawai]> SELECT * FROM jabatan;
++----+-----------------+
+| id | nama            |
++----+-----------------+
+| 23 | Asisten Manajer |
+| 21 | Direktur        |
+| 22 | Manajer         |
+| 24 | Staff           |
++----+-----------------+
+4 rows in set (0.001 sec)
+
+Jawaban No. 14 Menginput data pegawai
+MariaDB [dbpegawai]> INSERT INTO pegawai VALUES
+    -> ('', 1111, 'Muhammad Santoso', 'Laki-Laki', 'Tegal', '1997-01-01', 11, 21, 'Slawi'),
+    -> ('', 1112, 'Muhammad Asep', 'Laki-Laki', 'Salatiga', '1997-02-22', 11, 21, 'Banten'),
+    -> ('', 1113, 'Bagas Muhammad', 'Laki-Laki', 'Serang', '1996-03-17', 11, 21, 'Sulteng'),
+    -> ('', 1114, 'Nero', 'Perempuan', 'Papua', '1999-06-09', 11, 21, 'NTT'),
+    -> ('', 1115, 'Fatha Tamzz', 'Laki-Laki', 'Singapura', '2005-02-28', 11, 21, 'Jaksel'),
+    -> ('', 2221, 'Dzakwan', 'Laki-Laki', 'Tokyo', '2006-03-29', 12, 22, 'Jaksel'),
+    -> ('', 2222, 'Sandy', 'Laki-Laki', 'Afrika', '1980-03-16', 12, 22, 'Sumbar'),
+    -> ('', 2223, 'Maemunah', 'Perempuan', 'Mesir', '1999-05-13', 12, 22, 'Medan'),
+    -> ('', 2224, 'Shizuka', 'Perempuan', 'Papua', '2001-02-01', 12, 22, 'Australia'),
+    -> ('', 2225, 'Sakura', 'Perempuan', 'Ambon', '2004-12-07', 12, 22, 'Moskow'),
+    -> ('', 3331, 'Dillah', 'Laki-Laki', 'Serang', '2000-07-13', 13, 23, 'Medan'),
+    -> ('', 3332, 'Wiwi Dodo', 'Laki-Laki', 'Tokyo', '2002-12-24', 13, 23, 'NTB'),
+    -> ('', 3333, 'Wowo Anto', 'Laki-Laki', 'Tegal', '1997-03-31', 13, 23, 'NTT'),
+    -> ('', 3334, 'Inosuka', 'Perempuan', 'Afrika', '1998-08-21', 13, 23, 'Qatar'),
+    -> ('', 3335, 'Raisa Can', 'Perempuan', 'Rusia', '1995-10-02', 13, 23, 'Amerika'),
+    -> ('', 4441, 'Ipru Ganteng', 'Laki-Laki', 'Sulteng', '1966-09-21', 14, 24, 'Australia'),
+    -> ('', 4442, 'Ronaldo Wati', 'Perempuan', 'China', '1977-12-30', 14, 24, 'Amerika'),
+    -> ('', 4443, 'Razmi', 'Laki-Laki', 'Jaksel', '1988-07-06', 14, 24, 'China'),
+    -> ('', 4444, 'Danskuy', 'Laki-Laki', 'Jaktim', '1999-06-07', 14, 24, 'Kalsel'),
+    -> ('', 4445, 'Budi Dono', 'Laki-Laki', 'Babel', '2003-08-08', 14, 24, 'Kep Riau');
+Query OK, 20 rows affected, 20 warnings (0.006 sec)
+Records: 20  Duplicates: 0  Warnings: 20
+
+Jawaban No. 15 Menampilkan seluruh data pegawai
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+------+------------------+-----------+-----------+------------+----------+-----------+-----------+
+| id | nip  | nama             | gender    | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat    |
++----+------+------------------+-----------+-----------+------------+----------+-----------+-----------+
+|  1 | 1111 | Muhammad Santoso | Laki-Laki | Tegal     | 1997-01-01 |       11 |        21 | Slawi     |
+|  2 | 1112 | Muhammad Asep    | Laki-Laki | Salatiga  | 1997-02-22 |       11 |        21 | Banten    |
+|  3 | 1113 | Bagas Muhammad   | Laki-Laki | Serang    | 1996-03-17 |       11 |        21 | Sulteng   |
+|  4 | 1114 | Nero             | Perempuan | Papua     | 1999-06-09 |       11 |        21 | NTT       |
+|  5 | 1115 | Fatha Tamzz      | Laki-Laki | Singapura | 2005-02-28 |       11 |        21 | Jaksel    |
+|  6 | 2221 | Dzakwan          | Laki-Laki | Tokyo     | 2006-03-29 |       12 |        22 | Jaksel    |
+|  7 | 2222 | Sandy            | Laki-Laki | Afrika    | 1980-03-16 |       12 |        22 | Sumbar    |
+|  8 | 2223 | Maemunah         | Perempuan | Mesir     | 1999-05-13 |       12 |        22 | Medan     |
+|  9 | 2224 | Shizuka          | Perempuan | Papua     | 2001-02-01 |       12 |        22 | Australia |
+| 10 | 2225 | Sakura           | Perempuan | Ambon     | 2004-12-07 |       12 |        22 | Moskow    |
+| 11 | 3331 | Dillah           | Laki-Laki | Serang    | 2000-07-13 |       13 |        23 | Medan     |
+| 12 | 3332 | Wiwi Dodo        | Laki-Laki | Tokyo     | 2002-12-24 |       13 |        23 | NTB       |
+| 13 | 3333 | Wowo Anto        | Laki-Laki | Tegal     | 1997-03-31 |       13 |        23 | NTT       |
+| 14 | 3334 | Inosuka          | Perempuan | Afrika    | 1998-08-21 |       13 |        23 | Qatar     |
+| 15 | 3335 | Raisa Can        | Perempuan | Rusia     | 1995-10-02 |       13 |        23 | Amerika   |
+| 16 | 4441 | Ipru Ganteng     | Laki-Laki | Sulteng   | 1966-09-21 |       14 |        24 | Australia |
+| 17 | 4442 | Ronaldo Wati     | Perempuan | China     | 1977-12-30 |       14 |        24 | Amerika   |
+| 18 | 4443 | Razmi            | Laki-Laki | Jaksel    | 1988-07-06 |       14 |        24 | China     |
+| 19 | 4444 | Danskuy          | Laki-Laki | Jaktim    | 1999-06-07 |       14 |        24 | Kalsel    |
+| 20 | 4445 | Budi Dono        | Laki-Laki | Babel     | 2003-08-08 |       14 |        24 | Kep Riau  |
++----+------+------------------+-----------+-----------+------------+----------+-----------+-----------+
+20 rows in set (0.001 sec)
+
+Jawaban No. 16 Mengubah 5 data pegawai
+MariaDB [dbpegawai]> UPDATE pegawai SET
+    -> nama = 'Farah can', gender = 'Perempuan', idjabatan = 22
+    -> WHERE id = 1;
+Query OK, 1 row affected (0.004 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai SET
+    -> nama = 'Nai can', gender = 'Perempuan', idjabatan = 23
+    -> WHERE id = 2;
+Query OK, 1 row affected (0.003 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai SET
+    -> nama = 'Tea can', gender = 'Perempuan', idjabatan = 24
+    -> WHERE id = 3;
+Query OK, 1 row affected (0.003 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai SET
+    -> nama = 'Ran can', gender = 'Perempuan', idjabatan = 23
+    -> WHERE id = 7;
+Query OK, 1 row affected (0.003 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai SET
+    -> nama = 'Papa Zola', gender = 'Laki-Laki', idjabatan = 24
+    -> WHERE id = 8;
+Query OK, 1 row affected (0.003 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Jawaban No. 17 Menghapus data 2 pegawai terakhir
+MariaDB [dbpegawai]> DELETE FROM pegawai WHERE id = 20;
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [dbpegawai]> DELETE FROM pegawai WHERE id = 19;
+Query OK, 1 row affected (0.003 sec)
+
+Jawaban No. 18 Menambahkan kolom berat badan
+MariaDB [dbpegawai]> ALTER TABLE pegawai
+    -> ADD COLUMN IF NOT EXISTS
+    -> berat_badan float NOT NULL;
+Query OK, 0 rows affected (0.008 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai
+    -> SET berat_badan = FLOOR(RAND() * 80) + 40;
+Query OK, 18 rows affected (0.003 sec)
+Rows matched: 18  Changed: 18  Warnings: 0
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+------+--------------+-----------+-----------+------------+----------+-----------+-----------+-------------+
+| id | nip  | nama         | gender    | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat    | berat_badan |
++----+------+--------------+-----------+-----------+------------+----------+-----------+-----------+-------------+
+|  1 | 1111 | Farah can    | Perempuan | Tegal     | 1997-01-01 |       11 |        22 | Slawi     |          49 |
+|  2 | 1112 | Nai can      | Perempuan | Salatiga  | 1997-02-22 |       11 |        23 | Banten    |          68 |
+|  3 | 1113 | Tea can      | Perempuan | Serang    | 1996-03-17 |       11 |        24 | Sulteng   |          74 |
+|  4 | 1114 | Nero         | Perempuan | Papua     | 1999-06-09 |       11 |        21 | NTT       |          48 |
+|  5 | 1115 | Fatha Tamzz  | Laki-Laki | Singapura | 2005-02-28 |       11 |        21 | Jaksel    |          58 |
+|  6 | 2221 | Dzakwan      | Laki-Laki | Tokyo     | 2006-03-29 |       12 |        22 | Jaksel    |         107 |
+|  7 | 2222 | Ran can      | Perempuan | Afrika    | 1980-03-16 |       12 |        23 | Sumbar    |          82 |
+|  8 | 2223 | Papa Zola    | Laki-Laki | Mesir     | 1999-05-13 |       12 |        24 | Medan     |          47 |
+|  9 | 2224 | Shizuka      | Perempuan | Papua     | 2001-02-01 |       12 |        22 | Australia |         113 |
+| 10 | 2225 | Sakura       | Perempuan | Ambon     | 2004-12-07 |       12 |        22 | Moskow    |          61 |
+| 11 | 3331 | Dillah       | Laki-Laki | Serang    | 2000-07-13 |       13 |        23 | Medan     |          88 |
+| 12 | 3332 | Wiwi Dodo    | Laki-Laki | Tokyo     | 2002-12-24 |       13 |        23 | NTB       |          57 |
+| 13 | 3333 | Wowo Anto    | Laki-Laki | Tegal     | 1997-03-31 |       13 |        23 | NTT       |          61 |
+| 14 | 3334 | Inosuka      | Perempuan | Afrika    | 1998-08-21 |       13 |        23 | Qatar     |          96 |
+| 15 | 3335 | Raisa Can    | Perempuan | Rusia     | 1995-10-02 |       13 |        23 | Amerika   |          97 |
+| 16 | 4441 | Ipru Ganteng | Laki-Laki | Sulteng   | 1966-09-21 |       14 |        24 | Australia |          78 |
+| 17 | 4442 | Ronaldo Wati | Perempuan | China     | 1977-12-30 |       14 |        24 | Amerika   |          61 |
+| 18 | 4443 | Razmi        | Laki-Laki | Jaksel    | 1988-07-06 |       14 |        24 | China     |         109 |
++----+------+--------------+-----------+-----------+------------+----------+-----------+-----------+-------------+
+18 rows in set (0.001 sec)
+
+Jawaban No. 19 Menambahkan kolom umur
+MariaDB [dbpegawai]> ALTER TABLE pegawai
+    -> ADD COLUMN IF NOT EXISTS
+    -> umur int NOT NULL;
+Query OK, 0 rows affected (0.007 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai SET
+    -> umur = FLOOR(RAND() * 20) + 20;
+Query OK, 18 rows affected (0.004 sec)
+Rows matched: 18  Changed: 18  Warnings: 0
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+------+--------------+-----------+-----------+------------+----------+-----------+-----------+-------------+------+
+| id | nip  | nama         | gender    | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+------+--------------+-----------+-----------+------------+----------+-----------+-----------+-------------+------+
+|  1 | 1111 | Farah can    | Perempuan | Tegal     | 1997-01-01 |       11 |        22 | Slawi     |          49 |   31 |
+|  2 | 1112 | Nai can      | Perempuan | Salatiga  | 1997-02-22 |       11 |        23 | Banten    |          68 |   24 |
+|  3 | 1113 | Tea can      | Perempuan | Serang    | 1996-03-17 |       11 |        24 | Sulteng   |          74 |   26 |
+|  4 | 1114 | Nero         | Perempuan | Papua     | 1999-06-09 |       11 |        21 | NTT       |          48 |   21 |
+|  5 | 1115 | Fatha Tamzz  | Laki-Laki | Singapura | 2005-02-28 |       11 |        21 | Jaksel    |          58 |   25 |
+|  6 | 2221 | Dzakwan      | Laki-Laki | Tokyo     | 2006-03-29 |       12 |        22 | Jaksel    |         107 |   23 |
+|  7 | 2222 | Ran can      | Perempuan | Afrika    | 1980-03-16 |       12 |        23 | Sumbar    |          82 |   22 |
+|  8 | 2223 | Papa Zola    | Laki-Laki | Mesir     | 1999-05-13 |       12 |        24 | Medan     |          47 |   20 |
+|  9 | 2224 | Shizuka      | Perempuan | Papua     | 2001-02-01 |       12 |        22 | Australia |         113 |   33 |
+| 10 | 2225 | Sakura       | Perempuan | Ambon     | 2004-12-07 |       12 |        22 | Moskow    |          61 |   28 |
+| 11 | 3331 | Dillah       | Laki-Laki | Serang    | 2000-07-13 |       13 |        23 | Medan     |          88 |   22 |
+| 12 | 3332 | Wiwi Dodo    | Laki-Laki | Tokyo     | 2002-12-24 |       13 |        23 | NTB       |          57 |   25 |
+| 13 | 3333 | Wowo Anto    | Laki-Laki | Tegal     | 1997-03-31 |       13 |        23 | NTT       |          61 |   39 |
+| 14 | 3334 | Inosuka      | Perempuan | Afrika    | 1998-08-21 |       13 |        23 | Qatar     |          96 |   20 |
+| 15 | 3335 | Raisa Can    | Perempuan | Rusia     | 1995-10-02 |       13 |        23 | Amerika   |          97 |   26 |
+| 16 | 4441 | Ipru Ganteng | Laki-Laki | Sulteng   | 1966-09-21 |       14 |        24 | Australia |          78 |   29 |
+| 17 | 4442 | Ronaldo Wati | Perempuan | China     | 1977-12-30 |       14 |        24 | Amerika   |          61 |   26 |
+| 18 | 4443 | Razmi        | Laki-Laki | Jaksel    | 1988-07-06 |       14 |        24 | China     |         109 |   26 |
++----+------+--------------+-----------+-----------+------------+----------+-----------+-----------+-------------+------+
+18 rows in set (0.000 sec)
+
+Jawaban No. 20 Mengubah nama kolom (gender)
+MariaDB [dbpegawai]> ALTER TABLE pegawai
+    -> CHANGE COLUMN gender jenis_kelamin ENUM('Laki-Laki','Perempuan') NOT NULL;
+Query OK, 0 rows affected (0.009 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Jawaban No. 21 Menampilkan kolom (nip, nama, jenis_kelamin, alamat)
+MariaDB [dbpegawai]> SELECT nip, nama, jenis_kelamin, alamat FROM pegawai;
++------+--------------+---------------+-----------+
+| nip  | nama         | jenis_kelamin | alamat    |
++------+--------------+---------------+-----------+
+| 1111 | Farah can    | Perempuan     | Slawi     |
+| 1112 | Nai can      | Perempuan     | Banten    |
+| 1113 | Tea can      | Perempuan     | Sulteng   |
+| 1114 | Nero         | Perempuan     | NTT       |
+| 1115 | Fatha Tamzz  | Laki-Laki     | Jaksel    |
+| 2221 | Dzakwan      | Laki-Laki     | Jaksel    |
+| 2222 | Ran can      | Perempuan     | Sumbar    |
+| 2223 | Papa Zola    | Laki-Laki     | Medan     |
+| 2224 | Shizuka      | Perempuan     | Australia |
+| 2225 | Sakura       | Perempuan     | Moskow    |
+| 3331 | Dillah       | Laki-Laki     | Medan     |
+| 3332 | Wiwi Dodo    | Laki-Laki     | NTB       |
+| 3333 | Wowo Anto    | Laki-Laki     | NTT       |
+| 3334 | Inosuka      | Perempuan     | Qatar     |
+| 3335 | Raisa Can    | Perempuan     | Amerika   |
+| 4441 | Ipru Ganteng | Laki-Laki     | Australia |
+| 4442 | Ronaldo Wati | Perempuan     | Amerika   |
+| 4443 | Razmi        | Laki-Laki     | China     |
++------+--------------+---------------+-----------+
+18 rows in set (0.001 sec)
+
+Jawaban No. 22 Menampilkan jenis_kelamin 'Laki-Laki'
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE jenis_kelamin = 'Laki-Laki';
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+| id | nip  | nama         | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+|  5 | 1115 | Fatha Tamzz  | Laki-Laki     | Singapura | 2005-02-28 |       11 |        21 | Jaksel    |          58 |   25 |
+|  6 | 2221 | Dzakwan      | Laki-Laki     | Tokyo     | 2006-03-29 |       12 |        22 | Jaksel    |         107 |   23 |
+|  8 | 2223 | Papa Zola    | Laki-Laki     | Mesir     | 1999-05-13 |       12 |        24 | Medan     |          47 |   20 |
+| 11 | 3331 | Dillah       | Laki-Laki     | Serang    | 2000-07-13 |       13 |        23 | Medan     |          88 |   22 |
+| 12 | 3332 | Wiwi Dodo    | Laki-Laki     | Tokyo     | 2002-12-24 |       13 |        23 | NTB       |          57 |   25 |
+| 13 | 3333 | Wowo Anto    | Laki-Laki     | Tegal     | 1997-03-31 |       13 |        23 | NTT       |          61 |   39 |
+| 16 | 4441 | Ipru Ganteng | Laki-Laki     | Sulteng   | 1966-09-21 |       14 |        24 | Australia |          78 |   29 |
+| 18 | 4443 | Razmi        | Laki-Laki     | Jaksel    | 1988-07-06 |       14 |        24 | China     |         109 |   26 |
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+8 rows in set (0.001 sec)
+
+Jawaban No. 23 Menampilkan divisi IT bergender Perempuan 
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE iddivisi = 4 AND jenis_kelamin = 'Perempuan';
+Empty set (0.002 sec)
+
+(Punya saya divisi IT ga ada yang perempuannya bang, Mohon maap)
+
+Jawaban No. 24 Menampilkan data pegawai yang lahirnya di Jakarta lebih dari 30 tahun
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE umur > 30 AND tmp_lahir = 'Jakarta';
+Empty set (0.001 sec)
+
+(Punya saya yang ini juga ga ada bang)
+
+Jawaban No. 25 Menampilkan divisi Marketing umur lebih dari 30 dan bergender Perempuan
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE iddivisi = 13 AND umur > 30 AND jenis_kelamin = 'Perempuan';
+Empty set (0.001 sec)
+
+(Maaf bang yang ini juga ga ada, soalnya data perempuannya saya masukin acak)
+
+Jawaban No. 26 Menampilkan nip (klausa key)
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nip = 1115;
++----+------+-------------+---------------+-----------+------------+----------+-----------+--------+-------------+------+
+| id | nip  | nama        | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat | berat_badan | umur |
++----+------+-------------+---------------+-----------+------------+----------+-----------+--------+-------------+------+
+|  5 | 1115 | Fatha Tamzz | Laki-Laki     | Singapura | 2005-02-28 |       11 |        21 | Jaksel |          58 |   25 |
++----+------+-------------+---------------+-----------+------------+----------+-----------+--------+-------------+------+
+1 row in set (0.001 sec)
+
+Jawaban No. 27 Menampilkan gender (klausa non key)
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE jenis_kelamin = 'Laki-Laki';
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+| id | nip  | nama         | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+|  5 | 1115 | Fatha Tamzz  | Laki-Laki     | Singapura | 2005-02-28 |       11 |        21 | Jaksel    |          58 |   25 |
+|  6 | 2221 | Dzakwan      | Laki-Laki     | Tokyo     | 2006-03-29 |       12 |        22 | Jaksel    |         107 |   23 |
+|  8 | 2223 | Papa Zola    | Laki-Laki     | Mesir     | 1999-05-13 |       12 |        24 | Medan     |          47 |   20 |
+| 11 | 3331 | Dillah       | Laki-Laki     | Serang    | 2000-07-13 |       13 |        23 | Medan     |          88 |   22 |
+| 12 | 3332 | Wiwi Dodo    | Laki-Laki     | Tokyo     | 2002-12-24 |       13 |        23 | NTB       |          57 |   25 |
+| 13 | 3333 | Wowo Anto    | Laki-Laki     | Tegal     | 1997-03-31 |       13 |        23 | NTT       |          61 |   39 |
+| 16 | 4441 | Ipru Ganteng | Laki-Laki     | Sulteng   | 1966-09-21 |       14 |        24 | Australia |          78 |   29 |
+| 18 | 4443 | Razmi        | Laki-Laki     | Jaksel    | 1988-07-06 |       14 |        24 | China     |         109 |   26 |
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+8 rows in set (0.001 sec)
+
+Jawaban No. 28 Menampilkan nip (klausa IN)
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nip IN(1111,2221,3331);
++----+------+-----------+---------------+-----------+------------+----------+-----------+--------+-------------+------+
+| id | nip  | nama      | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat | berat_badan | umur |
++----+------+-----------+---------------+-----------+------------+----------+-----------+--------+-------------+------+
+|  1 | 1111 | Farah can | Perempuan     | Tegal     | 1997-01-01 |       11 |        22 | Slawi  |          49 |   31 |
+|  6 | 2221 | Dzakwan   | Laki-Laki     | Tokyo     | 2006-03-29 |       12 |        22 | Jaksel |         107 |   23 |
+| 11 | 3331 | Dillah    | Laki-Laki     | Serang    | 2000-07-13 |       13 |        23 | Medan  |          88 |   22 |
++----+------+-----------+---------------+-----------+------------+----------+-----------+--------+-------------+------+
+3 rows in set (0.001 sec)
+
+Jawaban No. 29 Menampilkan tempat lahir (NoT IN)
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE tmp_lahir NOT IN('Tokyo', 'Tegal', 'Afrika');
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+| id | nip  | nama         | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+|  2 | 1112 | Nai can      | Perempuan     | Salatiga  | 1997-02-22 |       11 |        23 | Banten    |          68 |   24 |
+|  3 | 1113 | Tea can      | Perempuan     | Serang    | 1996-03-17 |       11 |        24 | Sulteng   |          74 |   26 |
+|  4 | 1114 | Nero         | Perempuan     | Papua     | 1999-06-09 |       11 |        21 | NTT       |          48 |   21 |
+|  5 | 1115 | Fatha Tamzz  | Laki-Laki     | Singapura | 2005-02-28 |       11 |        21 | Jaksel    |          58 |   25 |
+|  8 | 2223 | Papa Zola    | Laki-Laki     | Mesir     | 1999-05-13 |       12 |        24 | Medan     |          47 |   20 |
+|  9 | 2224 | Shizuka      | Perempuan     | Papua     | 2001-02-01 |       12 |        22 | Australia |         113 |   33 |
+| 10 | 2225 | Sakura       | Perempuan     | Ambon     | 2004-12-07 |       12 |        22 | Moskow    |          61 |   28 |
+| 11 | 3331 | Dillah       | Laki-Laki     | Serang    | 2000-07-13 |       13 |        23 | Medan     |          88 |   22 |
+| 15 | 3335 | Raisa Can    | Perempuan     | Rusia     | 1995-10-02 |       13 |        23 | Amerika   |          97 |   26 |
+| 16 | 4441 | Ipru Ganteng | Laki-Laki     | Sulteng   | 1966-09-21 |       14 |        24 | Australia |          78 |   29 |
+| 17 | 4442 | Ronaldo Wati | Perempuan     | China     | 1977-12-30 |       14 |        24 | Amerika   |          61 |   26 |
+| 18 | 4443 | Razmi        | Laki-Laki     | Jaksel    | 1988-07-06 |       14 |        24 | China     |         109 |   26 |
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+12 rows in set (0.001 sec)
+
+Jawaban No. 30 Menampilkan Nama (asc)
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> ORDER BY nama ASC;
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+| id | nip  | nama         | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+| 11 | 3331 | Dillah       | Laki-Laki     | Serang    | 2000-07-13 |       13 |        23 | Medan     |          88 |   22 |
+|  6 | 2221 | Dzakwan      | Laki-Laki     | Tokyo     | 2006-03-29 |       12 |        22 | Jaksel    |         107 |   23 |
+|  1 | 1111 | Farah can    | Perempuan     | Tegal     | 1997-01-01 |       11 |        22 | Slawi     |          49 |   31 |
+|  5 | 1115 | Fatha Tamzz  | Laki-Laki     | Singapura | 2005-02-28 |       11 |        21 | Jaksel    |          58 |   25 |
+| 14 | 3334 | Inosuka      | Perempuan     | Afrika    | 1998-08-21 |       13 |        23 | Qatar     |          96 |   20 |
+| 16 | 4441 | Ipru Ganteng | Laki-Laki     | Sulteng   | 1966-09-21 |       14 |        24 | Australia |          78 |   29 |
+|  2 | 1112 | Nai can      | Perempuan     | Salatiga  | 1997-02-22 |       11 |        23 | Banten    |          68 |   24 |
+|  4 | 1114 | Nero         | Perempuan     | Papua     | 1999-06-09 |       11 |        21 | NTT       |          48 |   21 |
+|  8 | 2223 | Papa Zola    | Laki-Laki     | Mesir     | 1999-05-13 |       12 |        24 | Medan     |          47 |   20 |
+| 15 | 3335 | Raisa Can    | Perempuan     | Rusia     | 1995-10-02 |       13 |        23 | Amerika   |          97 |   26 |
+|  7 | 2222 | Ran can      | Perempuan     | Afrika    | 1980-03-16 |       12 |        23 | Sumbar    |          82 |   22 |
+| 18 | 4443 | Razmi        | Laki-Laki     | Jaksel    | 1988-07-06 |       14 |        24 | China     |         109 |   26 |
+| 17 | 4442 | Ronaldo Wati | Perempuan     | China     | 1977-12-30 |       14 |        24 | Amerika   |          61 |   26 |
+| 10 | 2225 | Sakura       | Perempuan     | Ambon     | 2004-12-07 |       12 |        22 | Moskow    |          61 |   28 |
+|  9 | 2224 | Shizuka      | Perempuan     | Papua     | 2001-02-01 |       12 |        22 | Australia |         113 |   33 |
+|  3 | 1113 | Tea can      | Perempuan     | Serang    | 1996-03-17 |       11 |        24 | Sulteng   |          74 |   26 |
+| 12 | 3332 | Wiwi Dodo    | Laki-Laki     | Tokyo     | 2002-12-24 |       13 |        23 | NTB       |          57 |   25 |
+| 13 | 3333 | Wowo Anto    | Laki-Laki     | Tegal     | 1997-03-31 |       13 |        23 | NTT       |          61 |   39 |
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+18 rows in set (0.001 sec)
+
+Jawaban No. 31 Menampilkan berat badan Terberat > Teringan
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> ORDER BY berat_badan DESC;
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+| id | nip  | nama         | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+|  9 | 2224 | Shizuka      | Perempuan     | Papua     | 2001-02-01 |       12 |        22 | Australia |         113 |   33 |
+| 18 | 4443 | Razmi        | Laki-Laki     | Jaksel    | 1988-07-06 |       14 |        24 | China     |         109 |   26 |
+|  6 | 2221 | Dzakwan      | Laki-Laki     | Tokyo     | 2006-03-29 |       12 |        22 | Jaksel    |         107 |   23 |
+| 15 | 3335 | Raisa Can    | Perempuan     | Rusia     | 1995-10-02 |       13 |        23 | Amerika   |          97 |   26 |
+| 14 | 3334 | Inosuka      | Perempuan     | Afrika    | 1998-08-21 |       13 |        23 | Qatar     |          96 |   20 |
+| 11 | 3331 | Dillah       | Laki-Laki     | Serang    | 2000-07-13 |       13 |        23 | Medan     |          88 |   22 |
+|  7 | 2222 | Ran can      | Perempuan     | Afrika    | 1980-03-16 |       12 |        23 | Sumbar    |          82 |   22 |
+| 16 | 4441 | Ipru Ganteng | Laki-Laki     | Sulteng   | 1966-09-21 |       14 |        24 | Australia |          78 |   29 |
+|  3 | 1113 | Tea can      | Perempuan     | Serang    | 1996-03-17 |       11 |        24 | Sulteng   |          74 |   26 |
+|  2 | 1112 | Nai can      | Perempuan     | Salatiga  | 1997-02-22 |       11 |        23 | Banten    |          68 |   24 |
+| 10 | 2225 | Sakura       | Perempuan     | Ambon     | 2004-12-07 |       12 |        22 | Moskow    |          61 |   28 |
+| 13 | 3333 | Wowo Anto    | Laki-Laki     | Tegal     | 1997-03-31 |       13 |        23 | NTT       |          61 |   39 |
+| 17 | 4442 | Ronaldo Wati | Perempuan     | China     | 1977-12-30 |       14 |        24 | Amerika   |          61 |   26 |
+|  5 | 1115 | Fatha Tamzz  | Laki-Laki     | Singapura | 2005-02-28 |       11 |        21 | Jaksel    |          58 |   25 |
+| 12 | 3332 | Wiwi Dodo    | Laki-Laki     | Tokyo     | 2002-12-24 |       13 |        23 | NTB       |          57 |   25 |
+|  1 | 1111 | Farah can    | Perempuan     | Tegal     | 1997-01-01 |       11 |        22 | Slawi     |          49 |   31 |
+|  4 | 1114 | Nero         | Perempuan     | Papua     | 1999-06-09 |       11 |        21 | NTT       |          48 |   21 |
+|  8 | 2223 | Papa Zola    | Laki-Laki     | Mesir     | 1999-05-13 |       12 |        24 | Medan     |          47 |   20 |
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+18 rows in set (0.000 sec)
+
+Jawaban No. 32 Menampilkan 5 pegawai teratas dengan limit dan offset 
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> LIMIT 5 OFFSET 0;
++----+------+-------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+| id | nip  | nama        | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+------+-------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+|  1 | 1111 | Farah can   | Perempuan     | Tegal     | 1997-01-01 |       11 |        22 | Slawi   |          49 |   31 |
+|  2 | 1112 | Nai can     | Perempuan     | Salatiga  | 1997-02-22 |       11 |        23 | Banten  |          68 |   24 |
+|  3 | 1113 | Tea can     | Perempuan     | Serang    | 1996-03-17 |       11 |        24 | Sulteng |          74 |   26 |
+|  4 | 1114 | Nero        | Perempuan     | Papua     | 1999-06-09 |       11 |        21 | NTT     |          48 |   21 |
+|  5 | 1115 | Fatha Tamzz | Laki-Laki     | Singapura | 2005-02-28 |       11 |        21 | Jaksel  |          58 |   25 |
++----+------+-------------+---------------+-----------+------------+----------+-----------+---------+-------------+------+
+5 rows in set (0.001 sec)
+
+Jawaban No. 33 Menampilkan 5 pegawai terbawah dengan limit dan offset
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> LIMIT 5 OFFSET 13;
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+| id | nip  | nama         | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+| 14 | 3334 | Inosuka      | Perempuan     | Afrika    | 1998-08-21 |       13 |        23 | Qatar     |          96 |   20 |
+| 15 | 3335 | Raisa Can    | Perempuan     | Rusia     | 1995-10-02 |       13 |        23 | Amerika   |          97 |   26 |
+| 16 | 4441 | Ipru Ganteng | Laki-Laki     | Sulteng   | 1966-09-21 |       14 |        24 | Australia |          78 |   29 |
+| 17 | 4442 | Ronaldo Wati | Perempuan     | China     | 1977-12-30 |       14 |        24 | Amerika   |          61 |   26 |
+| 18 | 4443 | Razmi        | Laki-Laki     | Jaksel    | 1988-07-06 |       14 |        24 | China     |         109 |   26 |
++----+------+--------------+---------------+-----------+------------+----------+-----------+-----------+-------------+------+
+5 rows in set (0.001 sec)
+
+Jawaban No. 34 Menampilkan jumlah pegawai (aggregat account)
+MariaDB [dbpegawai]> SELECT COUNT(*) AS jumlah_pegawai FROM pegawai;
++----------------+
+| jumlah_pegawai |
++----------------+
+|             18 |
++----------------+
+1 row in set (0.001 sec)
+
+Jawaban No. 35 Menampilkan nip,nama pegawai, umur yg paling tua menggunakan fungsi aggregrat max (kombinasi dengan sub query)
+MariaDB [dbpegawai]> SELECT nip,nama,umur FROM pegawai WHERE umur =(SELECT MAX(umur) FROM pegawai);
++------+-----------+------+
+| nip  | nama      | umur |
++------+-----------+------+
+| 3333 | Wowo Anto |   39 |
++------+-----------+------+
+1 row in set (0.001 sec)
+
+Jawaban No. 36 Menampilkan nip,nama pegawai, berat badan yg paling kurus menggunakan fungsi aggregrat min (kombinasi dengan sub query)
+MariaDB [dbpegawai]>  SELECT nip,nama,berat_badan FROM pegawai WHERE berat_badan =(SELECT MIN(berat_badan) FROM pegawai);
++------+-----------+-------------+
+| nip  | nama      | berat_badan |
++------+-----------+-------------+
+| 2223 | Papa Zola |          47 |
++------+-----------+-------------+
+1 row in set (0.001 sec)
+
+Jawaban No. 37 Menampilkan rata-rata umur pegawai
+MariaDB [dbpegawai]> SELECT AVG(umur) AS umur_rata2 FROM pegawai;
++------------+
+| umur_rata2 |
++------------+
+|    25.8889 |
++------------+
+1 row in set (0.000 sec)
+
+Jawaban No. 38 Menampilkan manager berumur 40 lebih dengan aggregat count dan klausa AND
+MariaDB [dbpegawai]> SELECT COUNT(*) AS manajer FROM pegawai
+    -> WHERE jenis_kelamin = 'Laki-Laki' AND umur > 40  AND idjabatan = 23;
++---------+
+| manajer |
++---------+
+|       0 |
++---------+
+1 row in set (0.041 sec)
+
+(maaf pak tidak ada inputan manager yang diatas umur 40)
+
+Jawaban No. 39 Menampilkan staff berumur kurang dari 40 tahun dan pegawai perempuan dengan aggregat acount dan clausa AND
+MariaDB [dbpegawai]> SELECT COUNT(*) AS staff_perempuan FROM pegawai
+    -> WHERE jenis_kelamin = 'Perempuan' AND umur < 40  AND idjabatan = 24;
++-----------------+
+| staff_perempuan |
++-----------------+
+|               2 |
++-----------------+
+1 row in set (0.001 sec)
+
+Jawaban No. 40 Menampilkan seluruh pegawai perempuan dengan aggregat count 
+MariaDB [dbpegawai]> SELECT COUNT(*) AS staff_perempuan FROM pegawai
+    -> WHERE jenis_kelamin = 'Perempuan' ;
++-----------------+
+| staff_perempuan |
++-----------------+
+|              10 |
++-----------------+
+1 row in set (0.001 sec)
+
+Jawaban No. 41 Menampilkan divisi SDM dengan aggregat sum dan klausa WHERE
+MariaDB [dbpegawai]> SELECT SUM(iddivisi) FROM pegawai WHERE iddivisi = 11;
++---------------+
+| SUM(iddivisi) |
++---------------+
+|            55 |
++---------------+
+1 row in set (0.001 sec)
+
+Jawaban No. 42 Menampilkan bedasarkan gender dengan min 10 orang (menggunakan group by dan having)
+MariaDB [dbpegawai]> SELECT iddivisi, COUNT(*) AS data_pegawai
+    -> FROM pegawai
+    -> GROUP BY iddivisi;
++----------+--------------+
+| iddivisi | data_pegawai |
++----------+--------------+
+|       11 |            5 |
+|       12 |            5 |
+|       13 |            5 |
+|       14 |            3 |
++----------+--------------+
+4 rows in set (0.001 sec)
+ 
+Jawaban No. 43 Menampilkan pegawai bedasarkan gender dan jumlah minimal 10 orang (dengan group by dan having)
+MariaDB [dbpegawai]> SELECT jenis_kelamin, COUNT(*) AS jns_pegawai
+    -> FROM pegawai
+    -> GROUP BY jenis_kelamin
+    -> HAVING COUNT(*) >=10;
++---------------+-------------+
+| jenis_kelamin | jns_pegawai |
++---------------+-------------+
+| Perempuan     |          10 |
++---------------+-------------+
+1 row in set (0.000 sec)
+
+Jawaban No. 44 Mencari data yang nama depannya muhammad
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    ->  WHERE nama LIKE 'Muhammad';
+Empty set (0.000 sec)
+
+Jawaban No. 45 Mencari pegawai berakhiran Santoso
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    ->  WHERE nama LIKE '%Santoso';
+Empty set (0.000 sec)
+
+Jawaban No. 46 Mencari pegawai bernama Asep
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    ->  WHERE nama LIKE '%Asep%';
+Empty set (0.000 sec)
+
+Jawaban No. 47 Mencari data yang hurup kelimanya s
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nama LIKE '____s%';
+Empty set (0.000 sec)
